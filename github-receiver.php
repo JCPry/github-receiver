@@ -189,6 +189,9 @@ class CFTP_Github_Webhook_Receiver {
 		
 		// Process the commits now
 		$payload = json_decode( stripslashes( $_POST[ 'payload' ] ) );
+		
+		// Store the payload as a transient for later review
+		set_transient( '_github_payload_' . substr( $payload->after, 0, 5 ), $payload );
 
 		// Work out the branch path
 		$branch_path = str_replace( 'refs/heads', '', $payload->ref );
