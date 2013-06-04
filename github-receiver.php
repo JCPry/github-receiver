@@ -211,19 +211,26 @@ class CFTP_Github_Webhook_Receiver {
 		if ( 'Merge' == substr( $commit_data->message, 0, 5 ) )
 			return;
 
-		// N.B. Posts get inserted in the order they are received, i.e.
-		// we don't set the post_date to the commit date as this proved
-		// to cause issues with the RSS feed.
+		// Set up the post time ( I don't care about RSS issues that may arise )
+		$post_date = str_replace( 'T', '', substr( $commit_data->timestamp, 0, -6 ) );
 		
 		// Devise a title
 		$lines = explode( "\n", $commit_data->message );
 		$post_title = "[{$repo_name}{$branch_path}] " . $commit_data->author->name . ' – ' . strip_tags( $lines[ 0 ] );
 		
+		// Set up the post content
+		$post_content = wp_kses( $commit_data->message, $GLOBALS[ 'allowedposttags' ] ) . "\n\n";
+		$post_content .= "Files modified:<br /><ul>";
+		foreach ( $commit_data->modified as $modified ) {
+			$post_content .= "<li>$modified</li>";
+		}
+		
 		// Create the post
 		$post_data = array(
-			'post_title' => $post_title, 
-			'post_content' => wp_kses( $commit_data->message, $GLOBALS[ 'allowedposttags' ] ),
-			'post_status' => 'publish',
+			'post_title'   => $post_title, 
+			'post_content' => $post_content,
+			'post_status'  => 'publish',
+			'post_date'    => $post_date,
 		);
 		
 		$post_id = wp_insert_post( $post_data );
