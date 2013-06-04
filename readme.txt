@@ -1,7 +1,7 @@
 === Github Receiver ===
-Contributors: cftp, simonwheatley
+Contributors: cftp, simonwheatley, jpry
 Tested up to: 3.5
-Stable tag: 1.3
+Stable tag: 1.4
 Requires at least: 3.5
 
 Provides an endpoint for the Github Post-Receive Webhook to ping, allowing WordPress to create a post for each Github commit.
