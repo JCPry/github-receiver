@@ -14,6 +14,16 @@ Provides an endpoint for the Github Post-Receive Webhook to ping, allowing WordP
 
 == Changelog ==
 
+= 1.4 =
+
+Wednesday, 5 June 2013
+
+* Store the payload as a transient
+* Remove test data
+* Modify the content and data for each commit
+* Add author to posts
+* Convert commit timestamp into post date
+
 = 1.3 =
 
 Tuesday, 4 June 2013
