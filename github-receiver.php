@@ -224,6 +224,7 @@ class CFTP_Github_Webhook_Receiver {
 		foreach ( $commit_data->modified as $modified ) {
 			$post_content .= "<li>$modified</li>";
 		}
+		$post_content .= "</ul>";
 		
 		// Create the post
 		$post_data = array(
