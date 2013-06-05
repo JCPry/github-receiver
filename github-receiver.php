@@ -231,7 +231,8 @@ class CFTP_Github_Webhook_Receiver {
 			'post_title'   => $post_title, 
 			'post_content' => $post_content,
 			'post_status'  => 'publish',
-			'post_date'    => $post_date,
+			'post_author'  => get_user_by( 'login', 'jpry' ),
+//			'post_date'    => $post_date,
 		);
 		
 		$post_id = wp_insert_post( $post_data );
