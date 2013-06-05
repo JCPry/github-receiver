@@ -191,8 +191,6 @@ class CFTP_Github_Webhook_Receiver {
 		// Work out the branch path
 		$branch_path = str_replace( 'refs/heads', '', $payload->ref );
 		if ( isset( $payload->commits ) && is_array( $payload->commits ) ) {
-            // Since GitHub gives us the newest commits first, sort them oldest first, for proper post order
-            krsort( $payload->commits );
 			foreach ( $payload->commits as & $commit_data ) {
 				$this->process_commit_data( $commit_data, $payload->repository->name, $branch_path );
             }
