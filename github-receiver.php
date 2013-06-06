@@ -222,11 +222,33 @@ class CFTP_Github_Webhook_Receiver {
 		
 		// Set up the post content
 		$post_content = wp_kses( $commit_data->message, $GLOBALS[ 'allowedposttags' ] ) . "\n\n";
-		$post_content .= "Files modified:<br /><ul>";
-		foreach ( $commit_data->modified as $modified ) {
-			$post_content .= "<li>$modified</li>";
-		}
-		$post_content .= "</ul>";
+
+        // Files Added
+        if ( $commit_data->added != array() ) {
+            $post_content .= "Files added:<br /><ul>";
+            foreach ( $commit_data->added as $added ) {
+                $post_content .= "<li>$added</li>";
+            }
+            $post_content .= "</ul>\n\n";
+        }
+
+        // Files modified
+        if ( $commit_data->modified != array() ) {
+            $post_content .= "Files modified:<br /><ul>";
+            foreach ( $commit_data->modified as $modified ) {
+                $post_content .= "<li>$modified</li>";
+            }
+            $post_content .= "</ul>\n\n";
+        }
+
+        // Files deleted
+        if ( $commit_data->deleted != array() ) {
+            $post_content .= "Files deleted:<br /><ul>";
+            foreach ( $commit_data->deleted as $deleted ) {
+                $post_content .= "<li>$deleted</li>";
+            }
+            $post_content .= "</ul>\n\n";
+        }
 		
 		// Create the post
 		$post_data = array(
