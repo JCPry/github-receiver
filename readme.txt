@@ -23,6 +23,7 @@ Wednesday, 5 June 2013
 * Modify the content and data for each commit
 * Add author to posts
 * Convert commit timestamp into post date
+* Add files that have been added, deleted, or modified to post content
 
 = 1.3 =
 
