@@ -242,9 +242,9 @@ class CFTP_Github_Webhook_Receiver {
         }
 
         // Files deleted
-        if ( $commit_data->deleted != array() ) {
+        if ( $commit_data->removed != array() ) {
             $post_content .= "Files deleted:<br /><ul>";
-            foreach ( $commit_data->deleted as $deleted ) {
+            foreach ( $commit_data->removed as $deleted ) {
                 $post_content .= "<li>$deleted</li>";
             }
             $post_content .= "</ul>\n\n";
