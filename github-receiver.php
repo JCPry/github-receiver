@@ -214,7 +214,7 @@ class CFTP_Github_Webhook_Receiver {
 			return;
 
 		// Set up the post time ( I don't care about RSS issues that may arise )
-		$post_date = date( 'Y-m-d G:i:s', strtotime( $commit_data->timestamp ) );
+		$post_date_gmt = date( 'Y-m-d G:i:s', strtotime( $commit_data->timestamp ) );
 		
 		// Devise a title
 		$lines = explode( "\n", $commit_data->message );
@@ -230,12 +230,12 @@ class CFTP_Github_Webhook_Receiver {
 		
 		// Create the post
 		$post_data = array(
-			'post_title'   => $post_title, 
-			'post_content' => $post_content,
-			'post_status'  => 'publish',
-			'post_author'  => get_user_by( 'login', 'jpry' ),
-			'post_date'    => $post_date,
-		);
+            'post_title'    => $post_title,
+            'post_content'  => $post_content,
+            'post_status'   => 'publish',
+            'post_author'   => get_user_by( 'login', 'jpry' ),
+            'post_date_gmt' => $post_date_gmt,
+        );
 		
 		$post_id = wp_insert_post( $post_data );
 		
