@@ -228,7 +228,7 @@ class CFTP_Github_Webhook_Receiver {
 		if ( isset( $http_headers[ 'X-GitHub-Event' ] ) && 'push' == $http_headers[ 'X-GitHub-Event' ] )
 			return $this->process_push();
 
-		// Either there is no X-Github-Event header, or we don't
+		// Either there is no X-GitHub-Event header, or we don't
 		// yet deal with this event type.
 		return $this->terminate_failure( 'Unrecognised event' );
 	}
