@@ -87,8 +87,8 @@ class CFTP_Github_Webhook_Receiver {
 		}
 
 		add_action( 'init',           array( $this, 'action_init' ) );
+		add_action( 'init',           array( $this, 'add_custom_taxonomies' ) );
 		add_action( 'parse_request',  array( $this, 'action_parse_request' ) );
-
 		add_filter( 'query_vars',     array( $this, 'filter_query_vars' ) );
 
 		$this->version = 1;
@@ -125,6 +125,71 @@ class CFTP_Github_Webhook_Receiver {
 	 */
 	public function action_admin_init() {
 		$this->maybe_update();
+	}
+
+	/**
+	 * Registers custom taxonomies related to Git structure
+	 * 
+	 * @action init
+	 */
+	public function add_custom_taxonomies() {
+		// Register 'branches' taxonomy
+		register_taxonomy( 'branches', array( 'post' ), array(
+			'labels' => array(
+				'name'						 => _x( 'Branches', 'cftp_ghwr' ),
+				'singular_name'				 => _x( 'Branch', 'cftp_ghwr' ),
+				'search_items'				 => _x( 'Search Branches', 'cftp_ghwr' ),
+				'popular_items'				 => _x( 'Popular Branches', 'cftp_ghwr' ),
+				'all_items'					 => _x( 'All Branches', 'cftp_ghwr' ),
+				'parent_item'				 => _x( 'Parent Branch', 'cftp_ghwr' ),
+				'parent_item_colon'			 => _x( 'Parent Branch:', 'cftp_ghwr' ),
+				'edit_item'					 => _x( 'Edit Branch', 'cftp_ghwr' ),
+				'update_item'				 => _x( 'Update Branch', 'cftp_ghwr' ),
+				'add_new_item'				 => _x( 'Add New Branch', 'cftp_ghwr' ),
+				'new_item_name'				 => _x( 'New Branch', 'cftp_ghwr' ),
+				'separate_items_with_commas' => _x( 'Separate branches with commas', 'cftp_ghwr' ),
+				'add_or_remove_items'		 => _x( 'Add or remove Branches', 'cftp_ghwr' ),
+				'choose_from_most_used'		 => _x( 'Choose from most used Branches', 'cftp_ghwr' ),
+				'menu_name'					 => _x( 'Branches', 'cftp_ghwr' ),
+			),
+			'public'			 => true,
+			'show_in_nav_menus'	 => true,
+			'show_ui'			 => true,
+			'show_tagcloud'		 => false,
+			'show_admin_column'	 => true,
+			'hierarchical'		 => false,
+			'rewrite'			 => true,
+			'query_var'			 => true,
+		) );
+
+		// Register 'repository' taxonomy
+		register_taxonomy( 'repository', array( 'post' ), array(
+			'lables' => array(
+				'name'						 => _x( 'Repositories', 'cftp_ghwr' ),
+				'singular_name'				 => _x( 'Repository', 'cftp_ghwr' ),
+				'search_items'				 => _x( 'Search Repositories', 'cftp_ghwr' ),
+				'popular_items'				 => _x( 'Popular Repositories', 'cftp_ghwr' ),
+				'all_items'					 => _x( 'All Repositories', 'cftp_ghwr' ),
+				'parent_item'				 => _x( 'Parent Repository', 'cftp_ghwr' ),
+				'parent_item_colon'			 => _x( 'Parent Repository:', 'cftp_ghwr' ),
+				'edit_item'					 => _x( 'Edit Repository', 'cftp_ghwr' ),
+				'update_item'				 => _x( 'Update Repository', 'cftp_ghwr' ),
+				'add_new_item'				 => _x( 'Add New Repository', 'cftp_ghwr' ),
+				'new_item_name'				 => _x( 'New Repository', 'cftp_ghwr' ),
+				'separate_items_with_commas' => _x( 'Separate branches with commas', 'cftp_ghwr' ),
+				'add_or_remove_items'		 => _x( 'Add or remove Repositories', 'cftp_ghwr' ),
+				'choose_from_most_used'		 => _x( 'Choose from most used Repositories', 'cftp_ghwr' ),
+				'menu_name'					 => _x( 'Repositories', 'cftp_ghwr' ),
+			),
+			'public'			 => true,
+			'show_in_nav_menus'	 => true,
+			'show_ui'			 => true,
+			'show_tagcloud'		 => false,
+			'show_admin_column'	 => true,
+			'hierarchical'		 => false,
+			'rewrite'			 => true,
+			'query_var'			 => true,
+		) );
 	}
 
 	/**
