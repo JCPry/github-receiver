@@ -286,7 +286,7 @@ class CFTP_Github_Webhook_Receiver {
 		$post_title = "[{$repo_name}{$branch_path}] " . $commit_data->author->name . ' – ' . strip_tags( $lines[ 0 ] );
 		
 		// Set up the post content
-		$post_content = setup_post_content( $commit_data );
+		$post_content = $this->setup_post_content( $commit_data );
 		
 		// Create the post
 		$post_data = array(
