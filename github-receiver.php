@@ -267,7 +267,7 @@ class CFTP_Github_Webhook_Receiver {
 	/**
 	 * Create the WP post object for a Github commit.
 	 * 
-	 * @param object $commit_data The Github commit data
+	 * @param StdClass $commit_data The Github commit data
 	 * @param string $repo_name The repo name
 	 * @param string $branch_path The branch path
 	 * @return void
@@ -286,6 +286,32 @@ class CFTP_Github_Webhook_Receiver {
 		$post_title = "[{$repo_name}{$branch_path}] " . $commit_data->author->name . ' – ' . strip_tags( $lines[ 0 ] );
 		
 		// Set up the post content
+		$post_content = setup_post_content( $commit_data );
+		
+		// Create the post
+		$post_data = array(
+            'post_title'    => $post_title,
+            'post_content'  => $post_content,
+            'post_status'   => 'publish',
+            'post_author'   => get_user_by( 'login', 'jpry' ),
+            'post_date_gmt' => $post_date_gmt,
+        );
+		
+		$post_id = wp_insert_post( $post_data );
+		
+		// Save the Github URL
+		add_post_meta( $post_id, '_github_commit_url', $commit_data->url );
+		// Save the portion of the payload remating to this commit commit portion of the payload
+		add_post_meta( $post_id, '_github_commit_data', $commit_data );
+	}
+	
+	/**
+	 * Build the post content
+	 * 
+	 * @param StdClass $commit_data The commit_data Object
+	 * @return string The content for the post
+	 */
+	public function setup_post_content( $commit_data ) {
 		$post_content = wp_kses( $commit_data->message, $GLOBALS[ 'allowedposttags' ] ) . "\n\n";
 
         // Files Added
@@ -315,21 +341,7 @@ class CFTP_Github_Webhook_Receiver {
             $post_content .= "</ul>\n\n";
         }
 		
-		// Create the post
-		$post_data = array(
-            'post_title'    => $post_title,
-            'post_content'  => $post_content,
-            'post_status'   => 'publish',
-            'post_author'   => get_user_by( 'login', 'jpry' ),
-            'post_date_gmt' => $post_date_gmt,
-        );
-		
-		$post_id = wp_insert_post( $post_data );
-		
-		// Save the Github URL
-		add_post_meta( $post_id, '_github_commit_url', $commit_data->url );
-		// Save the portion of the payload remating to this commit commit portion of the payload
-		add_post_meta( $post_id, '_github_commit_data', $commit_data );
+		return $post_content;
 	}
 	
 	/**
