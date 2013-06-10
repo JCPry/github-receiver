@@ -293,7 +293,7 @@ class CFTP_Github_Webhook_Receiver {
             'post_title'    => $post_title,
             'post_content'  => $post_content,
             'post_status'   => 'publish',
-            'post_author'   => get_user_by( 'login', 'jpry' ),
+            'post_author'   => get_user_by( 'login', 'jpry' )->ID,
             'post_date_gmt' => $post_date_gmt,
         );
 		
